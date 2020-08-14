@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Allow any files or directories that exist to be displayed directly
+RewriteCond %{REQUEST_FILENAME} !-f
+#Que no se un fichero
+RewriteCond %{REQUEST_FILENAME} !-d
+#Que no se un directorio
+
+RewriteRule ^(.*)$ index.php?ulr=$1 [QSA,L]
+#Cualquier cosa lo rediriges al index.php (parsea la cadena)
+
+php_value session.cookie_lifetime 180000
+php_value session.gc_maxlifetime 180000
+#Aumento del tiempo de vida de la sesion

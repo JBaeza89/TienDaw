@@ -1,0 +1,62 @@
+<?php global $URL_PATH; ?>
+<?php \dawfony\Ti::extend("view/MainView.phtml"); ?>
+<?php \dawfony\Ti::startBlock("content"); ?>
+<div class="row mt-5">
+  <?php foreach ($articulos as $articulo) : ?>
+    <div class="col-md-6 pb-2">
+      <div class="card">
+        <div>
+          <img src="<?= $URL_PATH ?>/media/<?= $articulo->imagen ?>" alt="<?= $articulo->descripcion ?>">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><?= $articulo->nombre ?></h5>
+          <p class="card-text">Precio: <?= number_format($articulo->precio / 100, 2) ?>€</p>
+          <a href="javascript:void(0)" onclick="verDescripcion(<?= $articulo->id_articulo ?>)" class="btn btn-secondary">Ver descripción</a>
+          <a href="javascript:void(0)" onclick="annadirCarrito(<?= $articulo->id_articulo ?>, '<?= $user ?>')" class="btn btn-primary">Añadir al carrito</a>
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+</div>
+<nav aria-label="Page navigation" class="mt-2">
+  <ul class="pagination justify-content-end">
+    <li class="page-item<?= ($page == 1 ? " disabled" : "") ?>">
+      <a class="page-link" href="<?= $URL_PATH ?>" tabindex="-1">Inicio</a>
+    </li>
+    <li class="page-item<?= ($page - 1 < 1 ? " disabled" : "") ?>">
+      <a class="page-link" href="<?= $URL_PATH . "/" . ($page - 1) ?>" tabindex="-1">Anterior</a>
+    </li>
+    <li class="page-item disabled">
+      <a class="page-link" href="#"><?= $page ?></a>
+    </li>
+    <li class="page-item<?= ($page + 1 > $numPaginas ? " disabled" : "") ?>">
+      <a class="page-link" href="<?= $URL_PATH . "/" . ($page + 1) ?>">Siguiente</a>
+    </li>
+    <li class="page-item<?= ($page == $numPaginas ? " disabled" : "") ?>">
+      <a class="page-link" href="<?= $URL_PATH . "/" . $numPaginas ?>" tabindex="-1">Final</a>
+    </li>
+  </ul>
+</nav>
+<script>
+  
+</script>
+<div class="modal fade" id="articuloModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nombre"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="descripcion"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php \dawfony\Ti::endBlock(); ?>
+<?php \dawfony\Ti::endExtend(); ?>

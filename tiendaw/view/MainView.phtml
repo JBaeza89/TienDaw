@@ -1,0 +1,56 @@
+<?php global $URL_PATH;?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?=$URL_PATH?>/style.css">
+    <?php \dawfony\Ti::startBlock("extrahead"); ?>
+    <?php \dawfony\Ti::endBlock() ?>
+    <title>
+        <?php \dawfony\Ti::startBlock("title"); ?>
+        <?=$data["title"]?>
+        <?php \dawfony\Ti::endBlock() ?>
+    </title>
+    <script>
+        var url_path = "<?=$URL_PATH?>";
+    </script>
+    <script src="<?=$URL_PATH?>/js/script.js"></script>
+
+</head>
+<body class="container">
+    <header class="text-center fondoheader" >
+        <img src="<?=$URL_PATH?>/media/logo.png" class="rounded" alt="logo">
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav marizq">
+                <li class="nav-item">
+                <img src="<?= $URL_PATH ?>/media/carrito.jpeg" height="40px" width="40px">
+                <span id="narticulos"><?=$numeroArticulos?></span>
+                </li>
+                <?php if ($comprando) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link enlace" href="<?=$URL_PATH?>/carrito">Ir al carrito</a>
+                    </li>
+                <?php else : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=$URL_PATH?>">Seguir comprando</a>
+                    </li>
+                <?php endif;?>
+            </ul>            
+        </div>
+    </nav>
+    <div>
+        <?php \dawfony\Ti::startBlock("content"); ?>
+        <?php \dawfony\Ti::endBlock() ?>
+    </div>
+</body>
+</html>

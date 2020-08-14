@@ -1,0 +1,80 @@
+<?php global $URL_PATH; ?>
+<?php \dawfony\Ti::extend("view/MainView.phtml"); ?>
+<?php \dawfony\Ti::startBlock("content"); ?>
+<div class="bg-light mt-5">
+    <?php if (isset($estado) && $estado == 1) :?>
+    <p class="text-success">¡¡Pago realizado con exito!!</p>    
+    <?php elseif (isset($estado) && $estado == 2) :?>
+    <p class="text-danger">No se pudo realizar el pago, intentelo más tarde</p>    
+    <?php endif;?>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">CANTIDAD</th>
+                <th scope="col">PRECIO</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($articulos as $articulo) : ?>
+                <tr id="<?= $articulo->id_articulo ?>">
+                    <td><?= $articulo->nombre ?></td>
+                    <td id="c<?= $articulo->id_articulo ?>"><?= $articulo->cantidad ?></td>
+                    <td id="p<?= $articulo->id_articulo ?>"><?= number_format($articulo->obtenerPrecioTotal() / 100, 2) ?>€</td>
+                    <td><a href="javascript:void(0)" onclick="aumentarCantidad(<?= $articulo->id_articulo ?>, '<?= $user ?>')" class="btn btn-success">+</a>
+                        <a href="javascript:void(0)" onclick="eliminar(<?= $articulo->id_articulo ?>, '<?= $user ?>')" class="btn btn-danger">X</a></td>
+                </tr>
+            <?php endforeach; ?>
+            <tr>
+                <td></td>
+                <td>Precio Total:</td>
+                <td id="costecarrito"><?=number_format($costeCarrito / 100, 2)?>€</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>    
+    <form action="<?=$URL_PATH?>/pedido" method="POST">
+        <div class="form-row">
+            <div class="col">
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+            </div>
+            <div class="col">
+                <button id="pagar" type="submit" class="btn btn-primary">Ir a comprar</button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <br>
+</div>
+<script>
+    function aumentarCantidad(id, user) {
+        fetch("<?= $URL_PATH ?>/api/aumentar/" + user + "/" + id)
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                var cantidad = document.getElementById("c" + id);
+                cantidad.innerText = res.cantidad;
+                var precio = document.getElementById("p" + id);
+                precio.innerText = res.precio + "€";
+                var costeCarrito = document.getElementById("costecarrito");
+                costeCarrito.innerText = res.total + "€";
+            });
+    }
+
+    function eliminar(id, user) {
+        fetch("<?= $URL_PATH ?>/api/eliminar/" + user + "/" + id)
+            .then((res) => res.json())
+            .then((res) => {
+                var articulo = document.getElementById(id);
+                articulo.parentNode.removeChild(articulo);
+                var carrito = document.getElementById("narticulos");
+                carrito.innerText = res.cuenta;
+                var costeCarrito = document.getElementById("costecarrito");
+                costeCarrito.innerText = res.total + "€";
+            });
+    }
+</script>
+<?php \dawfony\Ti::endBlock(); ?>
+<?php \dawfony\Ti::endExtend(); ?>
